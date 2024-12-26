@@ -1,3 +1,4 @@
+import supabase from "./auth";
 
 let board;
 let boardWidth = 360;
@@ -60,9 +61,9 @@ let lastYPosition = doodlerY;
 
 
 
-window.onload = function () {
-    // playerName = prompt("Enter your name (Max 8 characters):");
-    // playerName = playerName ? playerName.substring(0, 8) : "Player";
+export function initializeGame() {
+    fetchHighScore();
+    console.log(highScore);
 
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -93,14 +94,7 @@ window.onload = function () {
     };
 
     document.addEventListener("keydown", moveDoodler);
-};
-
-
-
-
-
-
-
+}
 
 function update() {
     if (gameOver) return;
@@ -163,12 +157,11 @@ function update() {
         platformArray.shift();
         newPlatform();
     }
-
-    updateScore();
     displayText();
 
     if (gameOver) {
         displayGameOver();
+        updateScore();
     }
 }
 
@@ -313,9 +306,50 @@ function updateScore() {
         score += scoreIncrementRate;
         lastYPosition = doodler.y;
     }
-    if (score > highScore) highScore = score;
+    if (score > highScore) updateHigh();
 }
 
+async function updateHigh() {
+
+    const { data } = await supabase.auth.getSession();
+    if (data?.session?.user?.id)
+    {
+        console.log("hello" ,data.session.user.id); 
+        const { data: player } = await supabase
+        .from('players')
+        .update({ high_score: Math.floor(score)})
+        .eq('user_id', data.session.user.id)
+    }
+    highScore = score;
+    return;
+}
+
+
+
+// to get the player's high score
+async function fetchHighScore()
+{
+    const { data } = await supabase.auth.getSession();
+    if (data?.session?.user?.id) {
+        console.log("User ID after refresh:", data.session.user.id);
+        const { data: player, error } = await supabase
+        .from('players')
+        .select('high_score')
+        .eq('user_id', data.session.user.id)
+        .single();
+        
+        if(error)
+        {
+            console.error(error.message);
+            return 0; // just 0
+        }
+        highScore = player.high_score;
+        return highScore;
+    } else {
+        console.error("Unable to retrieve user ID.");
+    }
+    return 0; //if wala 0
+}
 
 
 

@@ -1,8 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
+import { initializeGame } from './doodlejump';
 
 const supabaseUrl = 'https://ffbnnbxpxbltfwtvgrpw.supabase.co';
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default supabase;
 
 
 // para toggle sa forms
@@ -87,7 +90,7 @@ document.getElementById("signUp").addEventListener("submit", async function (eve
 
   if (error)
     {
-      feedbackSignUp.textContent = "something went wrong";
+      feedbackSignUp.textContent = "Something went wrong. Please try again.";
       feedbackSignUp.style.color = "red";
     }
     else
@@ -112,5 +115,22 @@ function startGame()
   const overlayS = document.getElementById("nameOverlay");
   overlay.style.display = "none";
   overlayS.style.display = "none";
-  window.onload();
-}
+  // window.onload();
+  initializeGame();
+} 
+
+// para rani session management, rag di na need
+// (async function checkAuth() {
+//   const { data: session } = await supabase.auth.getSession();
+
+//   if(session)
+//   {
+//     const overlay = document.getElementById("loginOverlay");
+//     const overlayS = document.getElementById("nameOverlay");
+//     overlay.style.display = "none";
+//     overlayS.style.display = "none";
+//     // window.onload();
+//     initializeGame();
+//   }
+  
+// })();
