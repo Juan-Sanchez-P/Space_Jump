@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodle Jump</title>
+    <link rel="stylesheet" href="src/doodlejump.css">
+    <script type="module" src="src/doodlejump.js" defer></script>
+</head>
+<body>
+    <canvas id="starCanvas"></canvas>
+    <canvas id="board"></canvas>
+
+    
+    <!-- sign Up -->
+    <div id="nameOverlay" class="overlay">
+        <div id="signUpcontainer" class="nameContainer">
+            <form id="signUp" method="post">
+                <label for="ign">Enter your name:</label>
+                <input type="text" 
+                name="ign" 
+                id="signUpIgnInput"
+                minlength="3"
+                maxlength="10"
+                required
+                >
+                <br>
+                
+                <label for="signUpEmailInput">Enter your email:</label>
+                <input 
+                type="email"
+                id="signUpEmailInput"
+                name="email"
+                autocomplete="email" 
+                required
+                >
+                
+                <br>
+                <label for="signUpPasswordInput">Enter your password:</label>
+                <input 
+                type="password" 
+                id="signUpPasswordInput" 
+                name="password" 
+                autocomplete="current-password"
+                required
+                minlength="6"
+                >
+                <button id="createBtn" type="submit" class="btn">Create & Start</button>
+            </form>
+            <button id="showLogin" class="btn">Login</button>
+            <div id="feedbackSignUp" style="margin-top: 10px; color: red;"></div>
+        </div>
+    </div>
+    
+    <!-- login -->
+    <div id="loginOverlay" class="overlay">
+        <div id="loginContainer" class="nameContainer">
+            <form id="login" method="post">
+    
+                <label for="playerEmailInput">Enter your email:</label>
+                <input 
+                type="email"
+                id="playerEmailInput"
+                name="email"
+                autocomplete="email" 
+                required
+                >
+    
+                <br>
+                <label for="playerPasswordInput">Enter your password:</label>
+                <input 
+                type="password" 
+                id="playerPasswordInput" 
+                name="password" 
+                autocomplete="current-password"
+                required
+                minlength="6"
+                >
+                <button id="startGameButton" type="submit" class="btn">Start Game</button>
+                </form>
+                <button id="showSignUp" class="btn">Sign Up</button>
+                <div id="feedbackLogin" style="margin-top: 10px; color: red;"></div>
+        </div>
+    </div>
+    
+    <script type="module" src="src/auth.js"></script>
+    <div class="title">Space Jump</div>
+    <div class="instructions">
+        Use Arrow Keys or A/D to move left and right. <br />
+        
+        Press Space to restart if you lose. Enjoy!
+    </div>
+    <div class="planet top-left"></div>
+    <div class="planet bottom-right"></div>
+</body>
+</html>
