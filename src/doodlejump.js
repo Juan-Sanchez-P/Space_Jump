@@ -282,8 +282,10 @@ function newPlatform() {
     };
 
     platformArray.push(platform);
-}
 
+    // Clean up platforms that have moved off-screen
+    platformArray = platformArray.filter(platform => platform.y < boardHeight);
+}
 
 
 
